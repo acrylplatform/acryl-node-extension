@@ -6,7 +6,7 @@ val nodeVersion = "v1.0.4"
 
 lazy val node = ProjectRef(uri(s"git://github.com/acrylplatform/Acryl.git#$nodeVersion"), "node")
 
-lazy val myProject = (project in file("."))
+lazy val nodeExtension = (project in file("."))
   .dependsOn(node % "compile;runtime->provided")
 
 libraryDependencies += "org.scalaj" %% "scalaj-http" % "2.4.2"
