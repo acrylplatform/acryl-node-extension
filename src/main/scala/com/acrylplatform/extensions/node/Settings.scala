@@ -22,7 +22,7 @@ case class NotificationsSettings(
     leasing: Boolean
 )
 
-object MinerNotifierSettings {
+object Settings {
   implicit val valueReader: ValueReader[Settings] = arbitraryTypeValueReader
 }
 
