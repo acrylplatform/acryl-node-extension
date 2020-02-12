@@ -1,7 +1,7 @@
 name := "node-extension"
 version := "0.0.1"
 
-scalaVersion := "2.12.9"
+scalaVersion := "2.12.8"
 val nodeVersion = "v1.0.4"
 
 lazy val node = ProjectRef(uri(s"git://github.com/acrylplatform/Acryl.git#$nodeVersion"), "node")
