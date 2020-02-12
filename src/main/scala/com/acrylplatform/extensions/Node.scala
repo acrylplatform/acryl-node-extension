@@ -127,10 +127,10 @@ class Node(context: ExtensionContext) extends Extension with ScorexLogging {
     }
 
     if (context.settings.minerSettings.enable) {
-      if (generatingBalance < 1000 * 100000000)
+      if (generatingBalance < 100 * 100000000)
         warn(
           s"Node doesn't mine blocks!" +
-            s" Generating balance is ${acryl(generatingBalance)} Acryl but must be at least 1000 Acryl")
+            s" Generating balance is ${acryl(generatingBalance)} Acryl but must be at least 100 Acryl")
       if (context.blockchain.hasScript(minerPublicKey.toAddress))
         warn(
           s"Node doesn't mine blocks! Account ${minerPublicKey.toAddress.stringRepr} is scripted." +
