@@ -1,6 +1,8 @@
 package com.acrylplatform.extensions.node
 
-import net.ceedubs.ficus.readers.ArbitraryTypeReader.arbitraryTypeValueReader
+import com.typesafe.config.Config
+import net.ceedubs.ficus.Ficus._
+import net.ceedubs.ficus.readers.ArbitraryTypeReader._
 import net.ceedubs.ficus.readers.ValueReader
 
 case class Settings(
@@ -23,13 +25,17 @@ case class NotificationsSettings(
 )
 
 object Settings {
-  implicit val valueReader: ValueReader[Settings] = arbitraryTypeValueReader
-}
+  implicit val valueReader: ValueReader[Settings] =
+    (cfg: Config, path: String) => fromConfig(cfg.getConfig(path))
 
-object WebhookSettings {
-  implicit val valueReader: ValueReader[WebhookSettings] = arbitraryTypeValueReader
-}
-
-object NotificationsSettings {
-  implicit val valueReader: ValueReader[NotificationsSettings] = arbitraryTypeValueReader
+  private[this] def fromConfig(config: Config): Settings = {
+    val webhookSettings       = config.as[WebhookSettings]("webhook")
+    val blockUrl              = config.as[String]("block-url")
+    val notificationsSettings = config.as[NotificationsSettings]("notifications")
+    Settings(
+      webhook = webhookSettings,
+      blockUrl = blockUrl,
+      notifications = notificationsSettings
+    )
+  }
 }
