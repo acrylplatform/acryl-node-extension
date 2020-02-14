@@ -21,7 +21,7 @@ class Logger(settings: Settings) extends ScorexLogging {
         .method(settings.webhook.method)
         .asString
     } catch {
-      case NonFatal(e) => log.error(e.getMessage, e)
+      case NonFatal(e) => log.error("Logger: " + e.getMessage, e)
     }
 
   def info(message: String): Unit = {
