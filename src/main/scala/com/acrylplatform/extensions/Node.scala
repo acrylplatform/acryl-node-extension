@@ -3,7 +3,7 @@ package com.acrylplatform.extensions
 import java.text.DecimalFormat
 
 import com.acrylplatform.account.{AddressOrAlias, PublicKey}
-import com.acrylplatform.extensions.node.Settings
+import com.acrylplatform.extensions.node.{Antifork, Logger, Settings}
 import com.acrylplatform.extensions.{Context => ExtensionContext}
 import com.acrylplatform.transaction.Asset.Acryl
 import com.acrylplatform.transaction.lease.{LeaseCancelTransaction, LeaseTransaction}
