@@ -9,6 +9,7 @@ case class Settings(
     webhook: WebhookSettings,
     blockUrl: String,
     antiFork: Boolean,
+    remoteAPI: String,
     notifications: NotificationsSettings
 )
 
@@ -35,11 +36,13 @@ object Settings {
     val webhookSettings       = config.as[WebhookSettings]("webhook")
     val blockUrl              = config.as[String]("block-url")
     val antiFork              = config.as[Boolean]("anti-fork")
+    val remoteAPI             = config.as[String]("remote-api")
     val notificationsSettings = config.as[NotificationsSettings]("notifications")
     Settings(
       webhook = webhookSettings,
       blockUrl = blockUrl,
       antiFork = antiFork,
+      remoteAPI = remoteAPI,
       notifications = notificationsSettings
     )
   }
