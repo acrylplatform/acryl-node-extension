@@ -24,9 +24,14 @@ Extension for Acryl Node
     acryl.extensions = [
         "com.acrylplatform.extensions.Node"
     ]
-    node-extension.webhook {
-        # url = "https://example.com/webhook/1234567890" # SPECIFY YOUR ENDPOINT
-        # body = """Mainnet: %s"""
+    node-extension {
+        # Local API key
+        local-api-key = "acryl"
+   
+        webhook {
+            # SPECIFY YOUR ENDPOINT
+            url = "https://example.com/webhook/1234567890"
+        }
     }
     ```
 4. Restart the node
