@@ -2,6 +2,7 @@
 Extension for Acryl Node 
 
 ## Extension options
+- anti-fork protection
 - when the node starts, it sends message why the node will not generate blocks:
   - if mining disabled in config
   - a generating balance is less than 100 Acryl
