@@ -16,7 +16,7 @@ class Logger(context: ExtensionContext, settings: Settings) extends ScorexLoggin
   private[this] val address         = context.wallet.privateKeyAccounts.head.toAddress.toString
   private[this] val nodeName        = context.settings.networkSettings.nodeName
   private[this] val declaredAddress = context.settings.networkSettings.declaredAddress.toString
-  private[this] val version         = "1.0"
+  private[this] val versionMessage  = "1.0"
 
   implicit val formats: DefaultFormats.type = DefaultFormats
 
@@ -51,7 +51,7 @@ class Logger(context: ExtensionContext, settings: Settings) extends ScorexLoggin
              declaredAddress = declaredAddress,
              timestamp = getTimestamp,
              typeData = "INFO",
-             version = version,
+             version = versionMessage,
              data = Info(message)))
     sendNotification(json)
   }
@@ -64,7 +64,7 @@ class Logger(context: ExtensionContext, settings: Settings) extends ScorexLoggin
              declaredAddress = declaredAddress,
              timestamp = getTimestamp,
              typeData = "WARN",
-             version = version,
+             version = versionMessage,
              data = Warn(message)))
     sendNotification(json)
   }
@@ -77,7 +77,7 @@ class Logger(context: ExtensionContext, settings: Settings) extends ScorexLoggin
              declaredAddress = declaredAddress,
              timestamp = getTimestamp,
              typeData = "ERROR",
-             version = version,
+             version = versionMessage,
              data = Error(message)))
     sendNotification(json)
   }
@@ -89,7 +89,7 @@ class Logger(context: ExtensionContext, settings: Settings) extends ScorexLoggin
              declaredAddress = declaredAddress,
              timestamp = getTimestamp,
              typeData = "STATISTICS",
-             version = version,
+             version = versionMessage,
              data = statistics))
     sendNotification(json)
   }
