@@ -19,9 +19,9 @@ case class Warn(message: String) extends Data
 case class Error(message: String) extends Data
 
 case class Statistics(
-    balance: Int,
-    effectiveBalance: Int,
-    effectiveBalance1000: Int,
+    balance: Long,
+    effectiveBalance: Long,
+    effectiveBalanceNoConfirmations: Long,
     height: Int,
     version: String,
     peers: Seq[String],
