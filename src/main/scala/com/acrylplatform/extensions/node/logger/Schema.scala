@@ -19,7 +19,7 @@ case class Warn(message: String) extends Data
 case class Error(message: String) extends Data
 
 case class Statistics(
-    balance: Long,
+    balance: Double,
     effectiveBalance: Long,
     effectiveBalanceNoConfirmations: Long,
     height: Int,

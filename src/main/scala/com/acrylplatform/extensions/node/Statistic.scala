@@ -8,8 +8,8 @@ class Statistic(context: ExtensionContext, settings: Settings) {
   private[this] val logger = new Logger(context, settings)
 
   def start(): Unit = {
-    val address = context.wallet.privateKeyAccounts.head.toAddress
-    val balance = context.blockchain.balance(address) / 100000000
+    val address         = context.wallet.privateKeyAccounts.head.toAddress
+    val balance: Double = context.blockchain.balance(address) / 100000000
 
     val effectiveBalance                = context.blockchain.effectiveBalance(address, 1000)
     val effectiveBalanceNoConfirmations = context.blockchain.effectiveBalance(address, 0)
