@@ -3,7 +3,7 @@ package com.acrylplatform.extensions
 import java.text.DecimalFormat
 
 import com.acrylplatform.account.{AddressOrAlias, PublicKey}
-import com.acrylplatform.extensions.node.{Antifork, Logger, Settings}
+import com.acrylplatform.extensions.node.{Antifork, Logger, Settings, Statistic}
 import com.acrylplatform.extensions.{Context => ExtensionContext}
 import com.acrylplatform.transaction.Asset.Acryl
 import com.acrylplatform.transaction.lease.{LeaseCancelTransaction, LeaseTransaction}
@@ -18,9 +18,10 @@ import scala.concurrent.Future
 
 class Node(context: ExtensionContext) extends Extension with ScorexLogging {
 
-  private[this] val settings = context.settings.config.as[Settings]("node-extension")
-  private[this] val logger   = new Logger(settings)
-  private[this] val antifork = new Antifork(context, settings)
+  private[this] val settings  = context.settings.config.as[Settings]("node-extension")
+  private[this] val logger    = new Logger(context, settings)
+  private[this] val antifork  = new Antifork(context, settings)
+  private[this] val statistic = new Statistic(context, settings)
 
   val minerPublicKey: PublicKey = context.wallet.privateKeyAccounts.head.publicKey
   var lastKnownHeight           = 0
@@ -97,6 +98,8 @@ class Node(context: ExtensionContext) extends Extension with ScorexLogging {
         s"Started at $lastKnownHeight height for miner ${minerPublicKey.toAddress.stringRepr}. " +
           s"Generating balance: ${acryl(generatingBalance)} Acryl")
     }
+
+    Observable.interval(10 minutes).doOnNext(_ => Task.now(statistic.start())).subscribe
 
     if (settings.antiFork)
       Observable.interval(10 minutes).doOnNext(_ => Task.now(antifork.check())).subscribe
