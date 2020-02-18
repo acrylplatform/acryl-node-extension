@@ -22,9 +22,9 @@ class Antifork(context: ExtensionContext, settings: Settings) {
 
     val headers =
       if (settings.localAPIKey.isEmpty)
-        Seq(("Content-Type", "application/json"))
+        Seq(("Content-type", "application/json"))
       else
-        Seq(("Content-Type", "application/json"), ("X-API-Key", settings.localAPIKey))
+        Seq(("Content-type", "application/json"), ("X-API-Key", settings.localAPIKey))
 
     try {
       val response: HttpResponse[String] = Http(s"""http://$localAPIAddress:$localAPIPort/debug/rollback""")
