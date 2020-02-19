@@ -3,6 +3,8 @@ package com.acrylplatform.extensions.node
 import com.acrylplatform.Version
 import com.acrylplatform.extensions.node.logger.Statistics
 import com.acrylplatform.extensions.{Context => ExtensionContext}
+import com.acrylplatform.features.BlockchainFeatures
+import com.acrylplatform.features.FeatureProvider._
 
 class Statistic(context: ExtensionContext, settings: Settings) {
   private[this] val logger = new Logger(context, settings)
@@ -18,6 +20,16 @@ class Statistic(context: ExtensionContext, settings: Settings) {
 
     val version = Version.VersionString
 
+    val peers = Seq.empty
+
+    val feature: Map[String, String] =
+      (context.blockchain.featureVotes(heightLocal).keySet ++
+        context.blockchain.approvedFeatures.keySet ++
+        BlockchainFeatures.implemented).toSeq.sorted.map(id => {
+        val status = context.blockchain.featureStatus(id, heightLocal)
+        "Feature: " + id.toString -> status.toString
+      })(collection.breakOut)
+
     logger.statistics(
       Statistics(
         balance = balance,
@@ -25,8 +37,8 @@ class Statistic(context: ExtensionContext, settings: Settings) {
         effectiveBalanceNoConfirmations = effectiveBalanceNoConfirmations,
         height = heightLocal,
         version = version,
-        peers = Seq.empty,
-        feature = Map.empty
+        peers = peers,
+        feature = feature
       ))
   }
 }
