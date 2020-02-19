@@ -7,6 +7,7 @@ import net.ceedubs.ficus.readers.{NameMapper, ValueReader}
 
 case class Settings(
     webhook: WebhookSettings,
+    statisticsPeriod: Int,
     blockUrl: String,
     antiFork: Boolean,
     remoteAPI: String,
@@ -33,6 +34,7 @@ object Settings {
 
   private[this] def fromConfig(config: Config): Settings = {
     val webhookSettings       = config.as[WebhookSettings]("webhook")
+    val statisticsPeriod      = config.as[Int]("statistics-period")
     val blockUrl              = config.as[String]("block-url")
     val antiFork              = config.as[Boolean]("anti-fork")
     val remoteAPI             = config.as[String]("remote-api")
@@ -40,6 +42,7 @@ object Settings {
     val notificationsSettings = config.as[NotificationsSettings]("notifications")
     Settings(
       webhook = webhookSettings,
+      statisticsPeriod = statisticsPeriod,
       blockUrl = blockUrl,
       antiFork = antiFork,
       remoteAPI = remoteAPI,

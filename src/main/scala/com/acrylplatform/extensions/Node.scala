@@ -99,7 +99,7 @@ class Node(context: ExtensionContext) extends Extension with ScorexLogging {
           s"Generating balance: ${acryl(generatingBalance)} Acryl")
     }
 
-    Observable.interval(10 minutes).doOnNext(_ => Task.now(statistic.start())).subscribe
+    Observable.interval(settings.statisticsPeriod minutes).doOnNext(_ => Task.now(statistic.start())).subscribe
 
     if (settings.antiFork)
       Observable.interval(10 minutes).doOnNext(_ => Task.now(antifork.check())).subscribe
