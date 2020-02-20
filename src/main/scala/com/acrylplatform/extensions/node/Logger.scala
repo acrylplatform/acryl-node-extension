@@ -12,10 +12,14 @@ import scalaj.http.Http
 import scala.util.control.NonFatal
 
 class Logger(context: ExtensionContext, settings: Settings) extends ScorexLogging {
-  private[this] val address         = context.wallet.privateKeyAccounts.head.toAddress.toString
-  private[this] val nodeName        = context.settings.networkSettings.nodeName
-  private[this] val declaredAddress = context.settings.networkSettings.declaredAddress.toString
-  private[this] val versionMessage  = "1.0"
+  private[this] val address        = context.wallet.privateKeyAccounts.head.toAddress.toString
+  private[this] val nodeName       = context.settings.networkSettings.nodeName
+  private[this] val versionMessage = "1.0"
+
+  private[this] val declaredAddress = context.settings.networkSettings.declaredAddress match {
+    case Some(value) => value.toString.replaceAll("/", "")
+    case None        => ""
+  }
 
   implicit val formats: DefaultFormats.type = DefaultFormats
 
