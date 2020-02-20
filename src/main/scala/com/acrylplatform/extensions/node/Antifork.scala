@@ -11,20 +11,20 @@ import scala.util.{Failure, Success}
 import scala.util.control.NonFatal
 
 class Antifork(context: ExtensionContext, settings: Settings) {
-  private[this] val logger    = new Logger(settings)
+  private[this] val logger    = new Logger(context, settings)
   private[this] val remoteAPI = settings.remoteAPI
 
   private[this] def rollback(height: Int): Unit = {
-    logger.warn("Rollback blockchain: Starting the blockchain rollback process")
+    logger.info("Starting the blockchain rollback process")
 
     val localAPIAddress = context.settings.restAPISettings.bindAddress
     val localAPIPort    = context.settings.restAPISettings.port
 
     val headers =
       if (settings.localAPIKey.isEmpty)
-        Seq(("Content-Type", "application/json"))
+        Seq(("Content-type", "application/json"))
       else
-        Seq(("Content-Type", "application/json"), ("X-API-Key", settings.localAPIKey))
+        Seq(("Content-type", "application/json"), ("X-API-Key", settings.localAPIKey))
 
     try {
       val response: HttpResponse[String] = Http(s"""http://$localAPIAddress:$localAPIPort/debug/rollback""")
@@ -38,9 +38,9 @@ class Antifork(context: ExtensionContext, settings: Settings) {
         .asString
 
       if (response.is2xx)
-        logger.info("Rollback blockchain: Blockchain rollback process was successful")
+        logger.info("Blockchain rollback process was successful")
       else
-        logger.info("Rollback blockchain: Blockchain rollback process failed")
+        logger.warn("Blockchain rollback process failed")
     } catch {
       case NonFatal(e) => logger.err("Rollback blockchain: " + e.getMessage)
     }
@@ -68,10 +68,10 @@ class Antifork(context: ExtensionContext, settings: Settings) {
                 val localSig = block.getHeader.signerData.signature.toString
 
                 if (localSig != remoteSig) {
-                  logger.warn("Anti-fork: Fork detected!")
+                  logger.err("Fork detected!")
                   rollback(height - 3000)
                 } else {
-                  logger.info("Anti-fork: Fork not detected")
+                  logger.info("Fork not detected")
                 }
               case None =>
                 logger.err("Anti-fork: Not found block on local blockchain")

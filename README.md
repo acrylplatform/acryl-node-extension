@@ -2,13 +2,21 @@
 Extension for Acryl Node 
 
 ## Extension options
+- anti-fork protection
 - when the node starts, it sends message why the node will not generate blocks:
   - if mining disabled in config
   - a generating balance is less than 100 Acryl
   - the miner account has a smart contract
 - notifies if the node mined block and its reward
 - notifies about incoming Acryl
-- notifies about changes of leased volume.
+- notifies about changes of leased volume
+- periodic statistics:
+  - balance
+  - effective balance (0 and 1000 confirmations)
+  - height
+  - local version
+  - peers connected
+  - features activation status
 
 ## How to install:
 1. Download `node-extension-0.0.1.jar` to `/usr/share/acryl/lib/`:
