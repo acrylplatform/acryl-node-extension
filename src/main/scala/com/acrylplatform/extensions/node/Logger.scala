@@ -29,12 +29,13 @@ class Logger(context: ExtensionContext, settings: Settings) extends ScorexLoggin
         .headers(settings.webhook.headers.flatMap(s =>
           s.split(":") match {
             case Array(a, b) =>
-              Seq(("Content-type", "application/json"), (a.trim, b.trim))
+              Seq((a.trim, b.trim))
             case _ =>
               log.error(s"""Can't parse "$s" header! Please check "webhook.headers" config. Its values must be in the "name: value" format""")
-              Seq(("Content-type", "application/json"))
+              Seq.empty
         }))
         .postData(json)
+        .header("content-type", "application/json")
         .method("POST")
         .asString
     } catch {
